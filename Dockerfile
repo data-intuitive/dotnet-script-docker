@@ -1,6 +1,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine
 
-RUN dotnet tool install -g dotnet-script --version 1.2.1
+ARG DNV=1.2.1
+
+RUN dotnet tool install -g dotnet-script --version ${DNV}
 
 ENV PATH="${PATH}:/root/.dotnet/tools"
 

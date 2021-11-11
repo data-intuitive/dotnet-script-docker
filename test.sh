@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-docker build -t hjerpbakk/dotnet-script-local:1.2.1 .
+
+DNV="${1:-1.2.1}"
+docker build -t dotnet-script-local:$DNV --build-arg DNV=$DNV .
 
 ARGUMENT="42"
-RESULT=$(docker run --rm --volume="$PWD:/scripts:ro" hjerpbakk/dotnet-script-local:1.2.1 test.csx -- "$ARGUMENT")
+RESULT=$(docker run --rm --volume="$PWD:/scripts:ro" dotnet-script-local:$DNV test.csx -- "$ARGUMENT")
 
 if [ "$RESULT" = "$ARGUMENT" ]; then
    echo "dotnet-script ran successfully";

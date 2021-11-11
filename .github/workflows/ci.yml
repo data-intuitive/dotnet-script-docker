@@ -1,17 +1,47 @@
-name: CI
+name: ci
 
-on: [push]
+on: [ push ]
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
+  build_containers:
+    runs-on: 'ubuntu-latest'
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    name: 'build_containers_v${{ matrix.config.version }}'
+
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        config:
+          - {version: '1.0.0', latest: ''}
+          - {version: '1.0.1', latest: ''}
+          - {version: '1.1.0', latest: ''}
+          - {version: '1.2.0', latest: ''}
+          - {version: '1.2.1', latest: ',data-intuitive/dotnet-script:latest'}
+
     steps:
-    - uses: actions/checkout@v1
-    - name: Build and test container
-      run: |
-        chmod +x test.sh
-        ./test.sh
-      shell: bash
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build and test container
+        run: ./test.sh ${{ matrix.config.version }}
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: data-intuitive/dotnet-script:${{ matrix.config.version }}${{ matrix.config.latest }}
+          build-args: |
+            DNV=${{ matrix.config.version }}
