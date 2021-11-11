@@ -16,7 +16,7 @@ jobs:
           - {version: '1.0.1', latest: ''}
           - {version: '1.1.0', latest: ''}
           - {version: '1.2.0', latest: ''}
-          - {version: '1.2.1', latest: ',data-intuitive/dotnet-script:latest'}
+          - {version: '1.2.1', latest: ',dataintuitive/dotnet-script:latest'}
 
     steps:
       - name: Checkout
@@ -42,6 +42,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: data-intuitive/dotnet-script:${{ matrix.config.version }}${{ matrix.config.latest }}
+          tags: dataintuitive/dotnet-script:${{ matrix.config.version }}${{ matrix.config.latest }}
           build-args: |
             DNV=${{ matrix.config.version }}
