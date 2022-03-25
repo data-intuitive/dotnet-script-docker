@@ -16,7 +16,9 @@ jobs:
           - {version: '1.0.1', latest: ''}
           - {version: '1.1.0', latest: ''}
           - {version: '1.2.0', latest: ''}
-          - {version: '1.2.1', latest: ',dataintuitive/dotnet-script:latest'}
+          - {version: '1.2.1', latest: ''}
+          - {version: '1.3.0', latest: ''}
+          - {version: '1.3.1', latest: ',ghcr.io/data-intuitive/dotnet-script:latest'}
 
     steps:
       - name: Checkout
@@ -31,17 +33,18 @@ jobs:
       - name: Build and test container
         run: ./test.sh ${{ matrix.config.version }}
 
-      - name: Login to DockerHub
+      - name: Login to Github Packages
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GTHB_PAT }}
 
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: dataintuitive/dotnet-script:${{ matrix.config.version }}${{ matrix.config.latest }}
+          tags: ghcr.io/data-intuitive/dotnet-script:${{ matrix.config.version }}${{ matrix.config.latest }}
           build-args: |
             DNV=${{ matrix.config.version }}
