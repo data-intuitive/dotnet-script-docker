@@ -10,6 +10,8 @@ RUN dotnet tool install -g dotnet-script --version ${DNV}
 
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
+RUN apk add --no-cache bash
+
 WORKDIR /scripts
 
 ENTRYPOINT ["dotnet-script"]
