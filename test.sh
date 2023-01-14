@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-DNV="${1:-1.2.1}"
+set -e
+
+DNV="${1:-1.3.1}"
 docker build -t dotnet-script-local:$DNV --build-arg DNV=$DNV .
 
 ARGUMENT="42"
