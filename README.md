@@ -1,11 +1,11 @@
 # dotnet-script Docker Image
 
-[![Build status](https://github.com/data-intuitive/ghcr_dotnet-script/workflows/CI/badge.svg)](https://github.com/data-intuitive/ghcr_dotnet-script/actions)
+[![Build status](https://github.com/data-intuitive/ghcr-dotnet-script/workflows/CI/badge.svg)](https://github.com/data-intuitive/ghcr-dotnet-script/actions)
 
-This is a [Docker image](https://hub.docker.com/r/ghcr.io/data-intuitive/dotnet-script/) containing the latest version of dotnet-script.
+This is a [Docker image](https://github.com/data-intuitive/ghcr-dotnet-script/pkgs/container/dotnet-script) containing the latest version of dotnet-script.
 
 
-## Runing scripts
+## Running scripts
 
 Example, shows the version of the dotnet script, 1.3.1 at the time of writing:
 
